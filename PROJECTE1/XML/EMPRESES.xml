@@ -1,0 +1,42 @@
+<empreses>
+    <empresa>
+        <nom>Electro Ferré</nom>
+        <municipi>Amposta</municipi>
+        <sector>Electrodomèstics</sector>
+        <telefon>649 13 13 52</telefon>
+        <email>electroferre@gmail.com</email>
+        <web>https://www.ampostacomercial.com/llar-i-complements/electrodomestics/electro-ferre/</web>
+    </empresa>
+    <empresa>
+        <nom>Hitech Informàtica</nom>
+        <municipi>Amposta</municipi>
+        <sector>Informàtica</sector>
+        <telefon>977 70 84 31</telefon>
+        <email>info@hitech-informatica.es</email>
+        <web>https://www.ampostacomercial.com/llar-i-complements/informatica/hitech-informatica/</web>
+    </empresa>
+    <empresa>
+        <nom>Casa Rural Can Plà</nom>
+        <municipi>Mas de Barberans</municipi>
+        <sector>Turístic</sector>
+        <telefon>636 33 19 57</telefon>
+        <email>info@canpla.com</email>
+        <web>https://www.canpla.com/</web>
+    </empresa>
+    <empresa>
+        <nom>Agrícola de Godall Lacrima Olea</nom>
+        <municipi>Godall</municipi>
+        <sector>Agrícola</sector>
+        <telefon>977 73 81 26</telefon>
+        <email>admin@agricoladegodall.com</email>
+        <web>https://www.lacrimaolea.com/</web>
+    </empresa>
+    <empresa>
+        <nom>Aritosa</nom>
+        <municipi>Masdenverge</municipi>
+        <sector>Industrial</sector>
+        <telefon>977 71 82 81</telefon>
+        <email>info@gruparitosa.com</email>
+        <web>https://gruparitosa.com/</web>
+    </empresa>
+</empreses>

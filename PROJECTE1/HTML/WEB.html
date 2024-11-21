@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cercador d'Empreses</title>
+    <link rel="stylesheet" href="/OPT. MÒDUL_OPTATIU_ASIX_DAW/PROJECTE1/CSS/WEB.css">
+    <link rel="stylesheet" href="/OPT. MÒDUL_OPTATIU_ASIX_DAW/PROJECTE1/CSS/INDEX.css">
+</head>
+<body>
+    <header>
+        <h1>Cercador d'Empreses del Montsià</h1>
+        <p>Introdueix el nom, municipi, sector, telèfon o email per trobar una empresa.</p>
+    </header>
+    <div id="Index">
+        <h2>Índex</h2>
+        <ul>
+            <li><a href="/OPT. MÒDUL_OPTATIU_ASIX_DAW/PROJECTE1/HTML/FORMULARI.html">Formulari de Gestió Laboral</a></li>
+            <li><a href="/OPT. MÒDUL_OPTATIU_ASIX_DAW/PROJECTE1/HTML/RESPOSTES.html">Visualitzar Les Respostes</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <section class="cercador">
+            <input type="text" id="cercaInput" placeholder="Cerca una empresa..." oninput="cercarEmpreses()">
+        </section>
+
+        <section class="resultats">
+            <table id="resultatsTaula">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Municipi</th>
+                        <th>Sector</th>
+                        <th>Telèfon</th>
+                        <th>Email</th>
+                        <th>Web</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+
+    <script>
+        let empreses = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/OPT. MÒDUL_OPTATIU_ASIX_DAW/PROJECTE1/XML/EMPRESES.xml')
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(data, 'application/xml');
+                    const empresesXML = xmlDoc.getElementsByTagName('empresa');
+
+                    for (let i = 0; i < empresesXML.length; i++) {
+                        empreses.push({
+                            nom: empresesXML[i].getElementsByTagName('nom')[0].textContent,
+                            municipi: empresesXML[i].getElementsByTagName('municipi')[0].textContent,
+                            sector: empresesXML[i].getElementsByTagName('sector')[0].textContent,
+                            telefon: empresesXML[i].getElementsByTagName('telefon')[0].textContent,
+                            email: empresesXML[i].getElementsByTagName('email')[0].textContent,
+                            web: empresesXML[i].getElementsByTagName('web')[0].textContent
+                        });
+                    }
+                    mostrarEmpreses(empreses);
+                })
+                .catch(error => console.error('Error carregant l’XML:', error));
+        });
+
+        function mostrarEmpreses(empresesFiltrades) {
+            const tbody = document.querySelector('#resultatsTaula tbody');
+            tbody.innerHTML = '';
+
+            empresesFiltrades.forEach(empresa => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>${empresa.nom}</td>
+                    <td>${empresa.municipi}</td>
+                    <td>${empresa.sector}</td>
+                    <td>${empresa.telefon}</td>
+                    <td>${empresa.email}</td>
+                    <td><a href="${empresa.web}" target="_blank">${empresa.web}</a></td>
+                `;
+                tbody.appendChild(fila);
+            });
+        }
+
+        function cercarEmpreses() {
+            const text = document.getElementById('cercaInput').value.toLowerCase();
+            const empresesFiltrades = empreses.filter(empresa =>
+                empresa.nom.toLowerCase().includes(text) ||
+                empresa.municipi.toLowerCase().includes(text) ||
+                empresa.telefon.toLowerCase().includes(text) ||
+                empresa.email.toLowerCase().includes(text) ||
+                empresa.sector.toLowerCase().includes(text)
+            );
+            mostrarEmpreses(empresesFiltrades);
+        }
+    </script>
+    
+    <footer>
+        <p>&copy; 2024 MontsiTech</p>
+    </footer>
+</body>
+</html>

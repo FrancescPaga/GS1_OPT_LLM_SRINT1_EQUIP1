@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/OPT. MÒDUL_OPTATIU_ASIX_DAW/PROJECTE1/CSS/RESPOSTES.css">
+    <link rel="stylesheet" href="/OPT. MÒDUL_OPTATIU_ASIX_DAW/PROJECTE1/CSS/WEB.css">
+    <link rel="stylesheet" href="/OPT. MÒDUL_OPTATIU_ASIX_DAW/PROJECTE1/CSS/INDEX.css">
+</head>
+<body>
+    <header>
+        <h1>Visualitzar Les Respostes</h1>
+        <p>Obriu un fitxer XML per veure les respostes del formulari.</p>
+    </header>
+    <div id="Index">
+        <h2>Índex</h2>
+        <ul>
+            <li><a href="/OPT. MÒDUL_OPTATIU_ASIX_DAW/PROJECTE1/HTML/WEB.html">Llistat Empreses</a></li>
+            <li><a href="/OPT. MÒDUL_OPTATIU_ASIX_DAW/PROJECTE1/HTML/FORMULARI.html">Formulari de Gestió Laboral</a></li>
+        </ul>
+    </div>
+    <input type="file" id="fileInput" accept=".xml">
+
+    <div id="xmlViewer">
+        <h2>Respostes carregades:</h2>
+        <div id="resultat"></div>
+    </div>
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) {
+                alert("Si us plau, selecciona un fitxer XML.");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const xmlContent = e.target.result;
+
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlContent, "application/xml");
+
+                if (xmlDoc.querySelector("parsererror")) {
+                    document.getElementById("resultat").innerText = "Error al processar el fitxer XML.";
+                    return;
+                }
+
+                const preguntes = xmlDoc.getElementsByTagName("pregunta");
+                const resultatDiv = document.getElementById("resultat");
+                resultatDiv.innerHTML = "";
+
+                for (let i = 0; i < preguntes.length; i++) {
+                    const pregunta = preguntes[i].getElementsByTagName("texto")[0].textContent;
+                    const resposta = preguntes[i].getElementsByTagName("respuesta")[0].textContent;
+
+                    const questionDiv = document.createElement("div");
+                    questionDiv.classList.add("question");
+
+                    const preguntaLabel = document.createElement("label");
+                    preguntaLabel.textContent = `Pregunta ${i + 1}:`;
+                    questionDiv.appendChild(preguntaLabel);
+
+                    const preguntaText = document.createElement("div");
+                    preguntaText.textContent = pregunta;
+                    questionDiv.appendChild(preguntaText);
+
+                    const respostaDiv = document.createElement("div");
+                    respostaDiv.classList.add("respuesta");
+                    respostaDiv.textContent = `Resposta: ${resposta}`;
+                    questionDiv.appendChild(respostaDiv);
+
+                    resultatDiv.appendChild(questionDiv);
+                }
+            };
+
+            reader.readAsText(file);
+        });
+    </script>
+    <footer>
+        <p>&copy; 2024 MontsiTech</p>
+    </footer>
+</body>
+</html>
